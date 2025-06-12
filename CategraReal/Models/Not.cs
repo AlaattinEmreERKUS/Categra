@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CategraReal.Models
 {
-    internal class Not
+    public class Not : IAranabilir
     {
         public string Baslik { get; set; }
         public string Icerik { get; set; }
@@ -27,5 +28,15 @@ namespace CategraReal.Models
             OlusturulmaTarihi = DateTime.Now;
             SonDuzenlenmeTarihi = DateTime.Now;
         }
+
+        public string AranabilirText()
+        {
+            return $"{Baslik} {Icerik} {Kategori?.Name}";
+        }
+
+        public string BaslikGetir() => Baslik;
+
+        public SearchableType AramaTuru() => SearchableType.Not;
+
     }
 }

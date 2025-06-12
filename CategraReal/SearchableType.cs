@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace CategraReal
 {
-    internal interface IAranabilir
+    public enum SearchableType
     {
-        string AranabilirText();
-        string BaslikGetir();
-        SearchableType AramaTuru();
+        Not,
+        Kategori
     }
 }

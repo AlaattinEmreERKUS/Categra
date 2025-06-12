@@ -6,36 +6,18 @@ using System.Threading.Tasks;
 
 namespace CategraReal.Models
 {
-    internal class Kategori : IAranabilir<Not>
+    public class Kategori : IAranabilir
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<Not> Notlar { get; set; }
+        public List<Not> Notlar { get; set; } = new List<Not>();
         public Kategori()
         {
-            Notlar = new List<Not>();
         }
         public Kategori(string name, string description)
         {
             Name = name;
             Description = description;
-            Notlar = new List<Not>();
-        }
-
-        public bool Arama(Not not)
-        {
-            if (Notlar.Count == 0)
-            {
-                return false;
-            }
-            foreach (var item in Notlar)
-            {
-                if (item.Baslik == not.Baslik && item.Icerik == not.Icerik)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public void Update(string name,string description)
@@ -44,5 +26,18 @@ namespace CategraReal.Models
             this.Description = description;
         }
 
+        public void Add(Not not)
+        {
+            Notlar.Add(not);
+        }
+
+        public string AranabilirText()
+        {
+            return $"{Name} {Description}";
+        }
+
+        public string BaslikGetir() => Name;
+
+        public SearchableType AramaTuru() => SearchableType.Kategori;
     }
 }
