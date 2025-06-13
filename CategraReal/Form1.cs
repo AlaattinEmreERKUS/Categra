@@ -27,6 +27,18 @@ namespace CategraReal
                 new Kategori("İş","İşle Alakalı Notlar"),
                 new Kategori("Okul","Okul ile Alakalı Notlar"),
             };
+
+            string json = JsonConvert.SerializeObject(Kategoriler, Formatting.Indented, settings);
+            if(!File.Exists(dosyaYolu))
+            {
+                File.Create(dosyaYolu);
+                File.WriteAllText(dosyaYolu, json);
+            }
+            else
+            {
+                File.AppendAllText(dosyaYolu, json);
+            }
+
             foreach (var item in Kategoriler)
             {
                 categoriesComboBox.Items.Add(item.Name);
@@ -37,10 +49,14 @@ namespace CategraReal
         }
 
 
-        private string dosyaYolu = "notlar.json";
+        private string dosyaYolu = "kategoriler.json";
         private string titleTemp;
         private string descriptionTemp;
         private List<Kategori> Kategoriler { get; set; }
+        private JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
         private void noteListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (noteListBox.SelectedIndex < 0) return;
@@ -57,6 +73,8 @@ namespace CategraReal
             categoriesComboBox.Items.Add(newCategoryTitleLbl.Text);
             categoriesListBox.Items.Add(newCategoryTitleLbl.Text);
             treeView1.Nodes.Add(newCategoryTitleLbl.Text);
+            string json = JsonConvert.SerializeObject(Kategoriler, Formatting.Indented, settings);
+            File.WriteAllText(dosyaYolu, json);
         }
 
         private void updateCategoryBtn_Click(object sender, EventArgs e)
@@ -69,6 +87,8 @@ namespace CategraReal
                 categoriesComboBox.Items[selectedIndex] = chosenCategoryTitleTxtBox.Text;
                 categoriesListBox.Items[selectedIndex] = chosenCategoryTitleTxtBox.Text;
                 treeView1.Nodes[selectedIndex].Text = chosenCategoryTitleTxtBox.Text;
+                string json = JsonConvert.SerializeObject(Kategoriler, Formatting.Indented, settings);
+                File.WriteAllText(dosyaYolu, json);
             }
             else
             {
@@ -108,6 +128,8 @@ namespace CategraReal
             Kategoriler[categoriesComboBox.SelectedIndex].Notlar.Add(yeni);
             noteListBox.Items.Add(yeni.Baslik);
             treeView1.Nodes[categoriesComboBox.SelectedIndex].Nodes.Add(yeni.Baslik);
+            string json = JsonConvert.SerializeObject(Kategoriler, Formatting.Indented, settings);
+            File.WriteAllText(dosyaYolu, json);
 
         }
 
